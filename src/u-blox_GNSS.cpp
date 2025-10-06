@@ -5680,7 +5680,7 @@ sfe_ublox_status_e DevUBLOXGNSS::waitForACKResponse(ubxPacket *outgoingUBX, uint
   packetAuto.classAndIDmatch = SFE_UBLOX_PACKET_VALIDITY_NOT_DEFINED;
 
   unsigned long startTime = millis();
-  while (millis() < (startTime + (unsigned long)maxTime))
+  while ((millis() - startTime) < (unsigned long)maxTime)
   {
     if (checkUbloxInternal(outgoingUBX, requestedClass, requestedID) == true) // See if new data is available. Process bytes as they come in.
     {
@@ -5819,7 +5819,7 @@ sfe_ublox_status_e DevUBLOXGNSS::waitForACKResponse(ubxPacket *outgoingUBX, uint
     } // checkUbloxInternal == true
 
     delay(1); // Allow an RTOS to get an elbow in (#11)
-  }           // while (millis() < (startTime + (unsigned long)maxTime))
+  }           // while ((millis() - startTime) < (unsigned long)maxTime)
 
   // We have timed out...
   // If the outgoingUBX->classAndIDmatch is VALID then we can take a gamble and return DATA_RECEIVED
@@ -6837,7 +6837,7 @@ size_t DevUBLOXGNSS::pushAssistNowDataInternal(size_t offset, bool skipTime, con
         {
           unsigned long startTime = millis();
           bool keepGoing = true;
-          while (keepGoing && (millis() < (startTime + maxWait))) // Keep checking for the ACK until we time out
+          while (keepGoing && ((millis() - startTime) < maxWait)) // Keep checking for the ACK until we time out
           {
             checkUbloxInternal(&packetCfg, 0, 0);               // Call checkUbloxInternal to parse any incoming data. Don't overwrite the requested Class and ID. We could be pushing this from another thread...
             if (packetUBXMGAACK->head != packetUBXMGAACK->tail) // Does the MGA ACK ringbuffer contain any ACK's?
@@ -7360,7 +7360,7 @@ size_t DevUBLOXGNSS::readNavigationDatabase(uint8_t *dataBytes, size_t maxNumDat
   uint32_t databaseEntriesRX = 0; // Keep track of how many database entries are received
   size_t numBytesReceived = 0;    // Keep track of how many bytes are received
 
-  while (keepGoing && (millis() < (startTime + maxWait)))
+  while (keepGoing && ((millis() - startTime) < maxWait))
   {
     checkUbloxInternal(&packetCfg, 0, 0); // Call checkUbloxInternal to parse any incoming data. Don't overwrite the requested Class and ID. We could be pushing this from another thread...
 

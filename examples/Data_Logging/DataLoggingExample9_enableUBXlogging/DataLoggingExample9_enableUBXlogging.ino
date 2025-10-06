@@ -194,7 +194,7 @@ void loop()
 
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-  if (millis() > (lastPrint + 1000)) // Print bytesWritten once per second
+  if ((millis() - lastPrint) > 1000) // Print bytesWritten once per second
   {
     Serial.print(F("The number of bytes written to SD card is ")); // Print how many bytes have been written to SD card
     Serial.println(bytesWritten);

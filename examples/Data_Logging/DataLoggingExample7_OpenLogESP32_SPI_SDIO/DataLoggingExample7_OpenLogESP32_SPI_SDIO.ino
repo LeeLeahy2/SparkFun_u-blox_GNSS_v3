@@ -279,7 +279,7 @@ void loop()
 
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-  if (millis() > (lastPrint + 1000)) // Print the message count once per second
+  if ((millis() - lastPrint) > 1000) // Print the message count once per second
   {
     uint16_t maxBufferBytes = myGNSS.getMaxFileBufferAvail(); // Get how full the file buffer has been (not how full it is now)
     float bufferHigh = 100.0 * (float)maxBufferBytes / (float)fileBufferSize;

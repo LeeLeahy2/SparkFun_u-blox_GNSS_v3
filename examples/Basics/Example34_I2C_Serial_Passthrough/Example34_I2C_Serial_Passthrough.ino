@@ -87,7 +87,7 @@ void loop()
     // If it is more than i2cReadInterval_ms since the last read, read how
     // many bytes are available in the GNSS I2C buffer. This will leave the register
     // address pointing at 0xFF.
-    if ((millis() > (i2cLastRead_ms + i2cReadInterval_ms)) || (i2cLastRead_ms == 0))
+    if ((((millis() - i2cLastRead_ms) > i2cReadInterval_ms)) || (i2cLastRead_ms == 0))
     {
         i2cBytesAvailable = gnssI2cAvailable();
         i2cLastRead_ms = millis();
@@ -115,7 +115,7 @@ void loop()
         }
         // Else if uartI2cRingBuffer contains data and it is more than uartI2cSendInterval_ms
         // since the last send, send them
-        else if ((bytesToSend > 0) && (millis() > (uartI2cLastSend_ms + uartI2cSendInterval_ms)))
+        else if ((bytesToSend > 0) && ((millis() - uartI2cLastSend_ms) > uartI2cSendInterval_ms))
         {
             sendI2cBytes(bytesToSend);
             uartI2cLastSend_ms = millis();
@@ -148,7 +148,7 @@ void loop()
         }
         // Else if i2cUartRingBuffer contains data and it is more than i2cUartSendInterval_ms
         // since the last send, send them
-        else if ((bytesToSend > 0) && (millis() > (i2cUartLastSend_ms + i2cUartSendInterval_ms)))
+        else if ((bytesToSend > 0) && ((millis() - i2cUartLastSend_ms) > i2cUartSendInterval_ms))
         {
             sendUartBytes(bytesToSend);
             i2cUartLastSend_ms = millis();

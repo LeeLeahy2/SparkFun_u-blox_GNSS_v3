@@ -210,7 +210,7 @@ void loop()
 
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-  if (millis() > (lastPrint + 1000)) // Print the message count once per second
+  if ((millis() - lastPrint) > 1000) // Print the message count once per second
   {
     Serial.print(F("Number of message groups received: SFRBX: ")); // Print how many message groups have been received (see note above)
     Serial.print(numSFRBX);

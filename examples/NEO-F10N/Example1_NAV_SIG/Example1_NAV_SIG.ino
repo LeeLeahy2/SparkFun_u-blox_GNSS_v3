@@ -298,7 +298,7 @@ void loop()
 void printDot() // Print a dot every 200ms - without using delay
 {
   static unsigned long lastPrint = millis();
-  if (millis() > (lastPrint + 200))
+  if ((millis() - lastPrint) > 200)
   {
     Serial.print(".");
     lastPrint = millis();
