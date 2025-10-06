@@ -246,7 +246,7 @@ void setup()
     
     unsigned long startTime = millis();
     WiFi.begin(ssid, password);
-    while ((WiFi.status() != WL_CONNECTED) && (millis() < (startTime + 10000))) // Timeout after 10 seconds
+    while ((WiFi.status() != WL_CONNECTED) && ((millis() - startTime) < 10000)) // Timeout after 10 seconds
     {
       delay(500);
       Serial.print(F("."));
@@ -421,7 +421,7 @@ bool beginClient()
     unsigned long startTime = millis();
     while (ntripClient.available() == 0)
     {
-      if (millis() > (startTime + 5000))
+      if ((millis() - startTime) > 5000)
       {
         Serial.println(F("Caster timed out!"));
         ntripClient.stop();
